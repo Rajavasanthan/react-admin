@@ -27,6 +27,11 @@ function SideBar(){
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Users</span></Link>
             </li>
+            <li class="nav-item">
+                <Link class="nav-link" to="/demo">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Demo</span></Link>
+            </li>
 
            
             <hr class="sidebar-divider"/>

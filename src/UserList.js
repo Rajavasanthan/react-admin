@@ -1,16 +1,33 @@
-/*global event*/
-/*eslint no-restricted-globals: ["error", "event"]*/
-
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function UserList() {
-    let handleDelete = (id) => {
-        let res = confirm("Are your sure do you want to delete this user?")
-        if(res){
+  let [userList, setUserList] = useState([]);
+  
+  useEffect(() => {
+    getData();
+  }, []); // On Mount
 
-        }
+  let getData = async () => {
+    let userData = await axios.get(
+      "https://5cdd0a92b22718001417c19d.mockapi.io/api/userdata"
+    );
+    setUserList(userData.data);
+  };
+
+  let handleDelete = (id) => {
+    // eslint-disable-next-line no-restricted-globals
+    let res = confirm("Are your sure do you want to delete this user?");
+    if (res) {
     }
+  };
+
+  // Formik
+  // Context
+  // API Call using axios
+  // useReducer
+  // intro to Redux
   return (
     <>
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -60,60 +77,36 @@ function UserList() {
                 </tr>
               </tfoot>
               <tbody>
-                <tr>
-                  <td>Ramesh</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-                  <td>61</td>
-                  <td>2011/04/25</td>
-                  <td>$320,800</td>
-                  <td>1st Street</td>
-                  <td>
-                    <Link to="/userview/1" className="btn btn-warning btn-sm">
-                      View
-                    </Link>
-                    <Link to="/useredit/1" className="btn btn-primary btn-sm">
-                      Edit
-                    </Link>
-                    <button onClick={() => handleDelete(1)} className="btn btn-danger btn-sm">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Suresh</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-                  <td>61</td>
-                  <td>2011/04/25</td>
-                  <td>$320,800</td>
-                  <td>1st Street</td>
-                  <td>
-                    <Link to="/userview/2" className="btn btn-warning btn-sm">
-                      View
-                    </Link>
-                    <Link to="/useredit/2" className="btn btn-primary btn-sm">
-                      Edit
-                    </Link>
-                    <button onClick={() => handleDelete(2)} className="btn btn-danger btn-sm">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Babu</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-                  <td>61</td>
-                  <td>2011/04/25</td>
-                  <td>$320,800</td>
-                  <td>1st Street</td>
-                  <td>
-                    <Link to="/userview/3" className="btn btn-warning btn-sm">
-                      View
-                    </Link>
-                    <Link to="/useredit/3" className="btn btn-primary btn-sm">
-                      Edit
-                    </Link>
-                    <button onClick={() => handleDelete(3)} className="btn btn-danger btn-sm">Delete</button>
-                  </td>
-                </tr>
+                {
+                  userList.map((user) => {
+                    return <tr>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.phone}</td>
+                    <td>{user.address}</td>
+                    <td>{user.country}</td>
+                    <td>{user.state}</td>
+                    <td>{user.city}</td>
+                   
+                    <td>
+                      <Link to={`/userview/${user.id}`} className="btn btn-warning btn-sm">
+                        View
+                      </Link>
+                      <Link to={`/useredit/${user.id}`} className="btn btn-primary btn-sm">
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(user.id)}
+                        className="btn btn-danger btn-sm"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                  })
+                }
+                
+                
               </tbody>
             </table>
           </div>

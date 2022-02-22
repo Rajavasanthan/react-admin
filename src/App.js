@@ -4,11 +4,11 @@ import SideBar from "./Sidebar";
 import TopBar from "./Topbar";
 import Dashboard from "./Dashboard";
 import UserList from "./UserList";
-import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserCreate from "./UserCreate";
 import UserView from "./UserView";
 import UserEdit from "./UserEdit";
+import Demo from "./Demo";
 
 function App() {
   return (
@@ -23,6 +23,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/userlist" element={<UserList />} />
                 <Route path="/usercreate" element={<UserCreate />} />
+                <Route path="/demo" element={<Demo />} />
                 <Route path="/userview/:id" element={<UserView />} />
                 <Route path="/useredit/:id" element={<UserEdit />} />
               </Routes>
