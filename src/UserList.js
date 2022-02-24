@@ -1,33 +1,34 @@
+/*global event*/
+/*eslint no-restricted-globals: ["error", "event"]*/
+
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+// import React from "react";
+import React,{useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 
 function UserList() {
   let [userList, setUserList] = useState([]);
-  
   useEffect(() => {
     getData();
-  }, []); // On Mount
+  }, []); // on Mount
 
   let getData = async () => {
-    let userData = await axios.get(
-      "https://5cdd0a92b22718001417c19d.mockapi.io/api/userdata"
+    let data = await axios.get(
+      "https://61f531ae62f1e300173c4040.mockapi.io/api/list"
     );
-    setUserList(userData.data);
+    setUserList(data.data);
   };
 
-  let handleDelete = (id) => {
-    // eslint-disable-next-line no-restricted-globals
-    let res = confirm("Are your sure do you want to delete this user?");
+  let handleDelete = async (id) => {
+    let res = confirm("Are sure want to delete");
     if (res) {
+      let data = await axios.delete(
+        `https://61f531ae62f1e300173c4040.mockapi.io/api/list/${id}`
+      );
+      getData();
     }
   };
-
-  // Formik
-  // Context
-  // API Call using axios
-  // useReducer
-  // intro to Redux
+  
   return (
     <>
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -36,10 +37,9 @@ function UserList() {
           to="/usercreate"
           class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
         >
-          <i class="fas fa-download fa-sm text-white-50"></i> Create User
+          <i class="fas fa-download fa-sm text-white-50"></i>Create User
         </Link>
       </div>
-
       <div class="card shadow mb-4">
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
@@ -58,9 +58,7 @@ function UserList() {
                   <th>Email</th>
                   <th>Country</th>
                   <th>State</th>
-                  <th>City</th>
-                  <th>Phone</th>
-                  <th>Address</th>
+                  <th>City </th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -70,9 +68,7 @@ function UserList() {
                   <th>Email</th>
                   <th>Country</th>
                   <th>State</th>
-                  <th>City</th>
-                  <th>Phone</th>
-                  <th>Address</th>
+                  <th>City </th>
                   <th>Action</th>
                 </tr>
               </tfoot>
@@ -81,23 +77,20 @@ function UserList() {
                   userList.map((user) => {
                     return <tr>
                     <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.phone}</td>
-                    <td>{user.address}</td>
+                    <td> {user.email}</td>
                     <td>{user.country}</td>
                     <td>{user.state}</td>
                     <td>{user.city}</td>
-                   
                     <td>
-                      <Link to={`/userview/${user.id}`} className="btn btn-warning btn-sm">
-                        View
+                      <Link to={`/userviwe/${user.id}`} className="btn btn-warning m-1">
+                        Viwe
                       </Link>
-                      <Link to={`/useredit/${user.id}`} className="btn btn-primary btn-sm">
+                      <Link to={`/useredit/${user.id}`} className="btn btn-primary m-1">
                         Edit
                       </Link>
                       <button
                         onClick={() => handleDelete(user.id)}
-                        className="btn btn-danger btn-sm"
+                        className="btn btn-danger m-1"
                       >
                         Delete
                       </button>
@@ -105,8 +98,6 @@ function UserList() {
                   </tr>
                   })
                 }
-                
-                
               </tbody>
             </table>
           </div>
